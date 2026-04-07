@@ -1,150 +1,126 @@
-# Licensing: when you can (and cannot) use the Porsche Design System
+# Licensing: what you need to know before using PDS
+
+This page is **informational**, not normative. The goal is to give Claude and the user the essential information to make a knowing decision about using the Porsche Design System. **The final assessment is always the user's responsibility**, possibly with the support of a lawyer. Claude is not a lawyer and this skill does not provide legal advice.
 
 ## TL;DR
 
-The Porsche Design System **is NOT an open source UI library like Radix, shadcn, Mantine**. It is a proprietary design system of Porsche AG released under a hybrid license:
+The Porsche Design System is released under a hybrid license:
 
-- **Source code**: Apache License 2.0 (you can read it, fork it, study it)
-- **Assets (compiled components, Porsche Next font, icons, wordmark, crest, color palette, design language)**: restrictive license defined in the "Porsche Design System Assets License Agreement"
+- **Source code**: Apache License 2.0 (permissive — you can read, fork, study, modify it)
+- **Assets** (Porsche Next font, icons, wordmark, crest, color palette, design language): **Porsche Design System Assets License Agreement**, a custom proprietary license with usage restrictions
 
-The license **does permit** using PDS for non-Porsche projects (including outside the automotive industry), but under one crucial constraint: the result must be **"dissimilar and visually distinct from Porsche products and services"**, at Porsche's sole discretion. This means the _sector_ of your project is not the limit — the _visual outcome_ is.
+When you install `@porsche-design-system/components-{js|react}` from npm and use the components, you are using both at once. The JS code is free, but the final rendering loads and applies proprietary assets that fall under the restrictive license.
 
 ## What the license allows
 
-From the Porsche Design System Assets License Agreement (official text at `designsystem.porsche.com/v4/license/` and `https://github.com/porsche-design-system/porsche-design-system/blob/main/LICENSE.md`):
+From the Porsche Design System Assets License Agreement (official text: `https://designsystem.porsche.com/v4/license/`):
 
-> "Porsche grants you a limited, worldwide, royalty-free, non-assignable, non-transferable, non-sublicensable, and non-exclusive license to use the Porsche Design System Assets solely to develop, test, and distribute software applications, websites, and interfaces **on behalf of Porsche** that are available via https://porsche.com or any associated websites or other Porsche software ('Applications')."
->
-> "You may not use the Porsche Design System Assets (i) to develop, test, or distribute an external, stand-alone Application ('External Application') **unless** such External Application is **not identical to and is dissimilar and visually distinct from Porsche products and services**, as determined by Porsche in its sole discretion, (ii) to mislead consumers as to Porsche's sponsorship of, affiliation with, or endorsement of you, your organization, or your Application, and (iii) for any purpose not expressly permitted by this License Agreement."
+1. **Applications for Porsche**: the base grant allows the use of the assets to develop, test, and distribute applications, websites, and interfaces **on behalf of Porsche**, accessible via `porsche.com` or other associated Porsche websites/software.
 
-Breaking this down, there are two permitted use cases:
+2. **External Applications**: there is an exception for external stand-alone apps, **provided** they are:
+   - **not identical** to Porsche products and services, and
+   - **dissimilar and visually distinct** from Porsche products (at Porsche's sole discretion)
+   - **not misleading** as to sponsorship, affiliation, or endorsement by Porsche
 
-1. **Applications on behalf of Porsche**: projects commissioned by or for Porsche, its subsidiaries, or official partners, published on `porsche.com` or associated sites.
+3. **Embedded Applications**: apps that integrate inside Porsche interfaces (e.g. Porsche Admin) may be visually similar but not identical to Porsche products and services.
 
-2. **External Applications**: standalone apps/sites/interfaces that are NOT for Porsche, permitted **as long as**:
-   - The application is **not identical** to existing Porsche products and services.
-   - The application is **dissimilar and visually distinct** from Porsche products and services (Porsche's discretion).
-   - The application **does not mislead** consumers about sponsorship, affiliation, or endorsement by Porsche.
+## What the license explicitly forbids
 
-Note: the license does **not** restrict the industry or sector. A law firm site, a SaaS dashboard, a food e-commerce, a fitness app — all can legitimately use PDS **provided** the final visual result does not look like a Porsche product.
-
-## What the license explicitly prohibits
-
-- **You may not modify, adapt, redistribute, or create derivative works** of PDS assets.
-- **You may not use PDS to mislead** consumers about your affiliation with Porsche.
+- **You may not modify, adapt, redistribute, or create derivative works** of PDS assets (this includes modifying the npm package files, reproducing the Porsche Next font, etc. — overriding CSS variables from outside is a grey area, see below).
+- **You may not use PDS to mislead consumers** about your affiliation with Porsche.
 - **You may not use PDS for purposes not expressly permitted** by the license.
-- All intellectual property rights (copyright, trademarks, trade secrets) remain with Porsche AG.
-- **You may not reproduce Porsche brand assets** (wordmark, crest, model signature, flag) in a non-Porsche context — these identify the brand and their use outside a Porsche context is always a violation.
+- All intellectual property rights remain with Porsche AG. The license is terminable at any time by Porsche, with or without cause.
 
-## The "dissimilar and visually distinct" constraint: what it means in practice
+The license also includes: an indemnification clause (the user defends Porsche from any claims related to their use of the assets), a $500 liability cap for Porsche, exclusive German jurisdiction (Stuttgart).
 
-This is the actual constraint. Porsche judges it at its sole discretion, but based on public documentation and common practices with similar brand design systems, here are the practical rules of thumb:
+## The notice to show the user (consent gate, once per conversation)
 
-**What helps create distinction**:
-- **Do not use Porsche brand components**: `<p-wordmark>`, `<p-crest>`, `<p-model-signature>`, `<p-flag>`. These are brand identifiers — their presence makes the application "visually similar" to Porsche by definition.
-- **Customize the dominant color palette**: PDS is neutral at its core (white/black/gray), but if you use the characteristic red `#D5001C` (Porsche's signature brand color) as the primary, you get close to the brand look. Override it with a custom color via CSS variables.
-- **Replace the Porsche Next font**: it is the most recognizable element of the design language. Using it in a non-Porsche context strengthens the visual association. Use an alternative geometric sans-serif (Inter, Manrope, General Sans, PP Neue Montreal).
-- **Do not use photographic/visual imagery typical of Porsche**: automotive photography in mountain/coastal settings, dealership interiors, etc.
-- **Add your own brand elements**: logo, your own typography for titles, distinctive colors, your imagery. The more "your brand" surfaces, the more the result is distinct from Porsche.
+When the user requests for the **first time** in a conversation to write PDS code, Claude must show a complete notice and **stop**, waiting for explicit authorization. This is a blocking consent gate: no line of PDS code must be written until the user explicitly authorizes.
 
-**What creates similarity (to avoid)**:
-- Using PDS "straight out of the box" with default colors + Porsche Next + photographic layouts similar to porsche.com.
-- Combining PDS components with car / automotive / premium automotive imagery without your own strong brand identity.
-- Replicating specific layouts from porsche.com (e.g. the classic Porsche hero with a car + black/white title + CTA in the center).
+The notice must cover **all** these points, adapted to the request context (do not copy verbatim) and in the user's language:
 
-## Decision tree: how to proceed
+> ⚠️ **Porsche Design System license notice — read before proceeding**
+>
+> The Porsche Design System is released under the *Porsche Design System Assets License Agreement*, a custom proprietary license (not MIT, not Apache, not permissive). Before I write code for you, I need you to be aware of a few points.
+>
+> **What the license allows**: PDS asset use (Porsche Next font, icons, design language, components) is granted "to develop applications on behalf of Porsche". For non-Porsche use there is an "External Application" exception, provided the result is "dissimilar and visually distinct" from Porsche products, **at Porsche's sole discretion**.
+>
+> **The real risk**: the "dissimilarity" assessment is not made by you, it's made by Porsche. This means using PDS with defaults for a non-Porsche project puts you in technical contractual violation, even though it's most likely never going to be enforced. For public projects (websites, distributed apps, online portfolios) the realistic risk is receiving a cease & desist if your app ever became visible, not a lawsuit.
+>
+> **Non-negotiable hard limits**: the brand assets `<PWordmark>`, `<PCrest>`, `<PModelSignature>`, `<PFlag>` are Porsche trademarks and I will never use them outside official Porsche projects, regardless of any customization.
+>
+> **How to reduce risk if we proceed**: I can write the code with PDS color overrides via CSS variables, replace the Porsche Next font with another font (e.g. your preferred font), avoid the brand assets, and optionally add a footer credit declaring use under the "External Application" clause.
+>
+> **Disclaimer**: I'm not a lawyer, this is not legal advice. The final compliance assessment is yours, possibly with a lawyer. For the full license text: `https://designsystem.porsche.com/v4/license/`.
+>
+> **Do you confirm that you have read and understood the above, and authorize me to proceed with PDS code for this project under your responsibility?**
 
-### ✅ Porsche project (or official partner)
+After showing the notice, **stop there**. Do not write code. Wait for an explicit response from the user.
 
-Proceed normally, using all components including brand assets (`<p-wordmark>`, `<p-crest>`, etc.).
+### What to do based on the user's response
 
-### ✅ Non-Porsche project — USE PDS with visual distinction
+- **Explicit authorization** ("yes", "ok proceed", "I authorize", "understood, go ahead", "I'm aware, do it"): proceed normally with the original request and for the rest of the conversation. **Do not repeat the notice** in subsequent turns of the same conversation.
 
-You can use it. Recommended guidelines:
-1. **Do not import** `<p-wordmark>`, `<p-crest>`, `<p-model-signature>`, `<p-flag>`.
-2. **Customize the primary colors** via CSS variables if you want a visual identity different from the PDS default palette:
-   ```css
-   :root {
-     --p-color-primary: hsl(220 70% 40%); /* your brand color */
-   }
-   ```
-3. **Optionally replace the font**: PDS includes Porsche Next automatically, but you can override it with `font-family` on body and let PDS components inherit (note: this works on text inside components, but the internal styles remain those of PDS).
-4. **Add your own imagery and logo**: do not copy layouts from porsche.com.
-5. **Document the choice**: in the project's README, briefly note that PDS is used as a technical foundation, that the result is "dissimilar and visually distinct" from Porsche products, and provide the link to the official license.
+- **Questions about the license, risks, or alternatives**: answer the questions in an informational way. Help the user decide knowingly. Do not write PDS code until there is explicit authorization.
 
-This is a perfectly legitimate use. Many companies use PDS as a technical base for internal applications, SaaS, dashboards, B2B sites, precisely because it offers solid components, accessibility, theming, and performance.
+- **Refusal or uncertainty** ("maybe", "I don't know", "hmm", "I'd rather avoid"): respect the decision, propose open source alternatives (shadcn/ui, Radix Themes, Mantine, HeroUI, Park UI) and help with those instead. Do not push PDS, do not try to sell it again.
 
-### ⚠️ Non-Porsche project where you want the "Porsche aesthetic"
+- **Ambiguous response** that is clearly neither authorization nor refusal: ask for clarification with a direct question. Do not interpret silence or ambiguity as consent.
 
-This is where you need to stop. If the goal is precisely to look like Porsche (to capitalize on the premium aesthetic, attract a car audience, communicate "luxury/performance" via the brand), then you are violating the "dissimilar and visually distinct" clause even if you don't put `<p-wordmark>` explicitly.
+- **Future conversations**: each new conversation requires a new consent gate. Consent is not persistent across separate sessions.
 
-In this case, two alternatives:
-1. **Clearly differentiate your visual identity** (your colors, your font, your imagery) so the final result does not read as "Porsche".
-2. **Use a different design system** with a similar premium look but without brand ties: Radix UI + custom styling, shadcn/ui, Mantine, HeroUI, Park UI, or commissioned custom design.
+## How to maximize "dissimilarity" (if the user wants to fall under the External Application exception)
 
-### ❌ Direct competitor to Porsche or automotive brand close to Porsche
+If the user is building something non-Porsche and wants to minimize risk under the "External Applications" exception, proactively suggest these practices **while writing the code** (not as a preventive block):
 
-If the project is a site/app for a direct competitor (another premium sports car manufacturer, a tuner that sells competitor packages, a service that positions itself as a Porsche alternative), the use is problematic regardless of visual distinction, because the combination "automotive context + PDS technology" creates consumer confusion about the affiliation. Avoid and use a different design system.
+1. **Color override**: replace the PDS palette with your own via CSS variable overrides (`--p-color-primary`, `--p-color-canvas`, `--p-color-surface`, etc.). Overriding CSS vars from outside does not constitute "modification of assets" in the sense of altering distributed files — it is the standard mechanism for customizing a token-based design system. **This is legally a grey area**, but it is the common practice for personalizing design systems.
+2. **Porsche Next font replacement**: the font is one of the most characteristic elements of the Porsche look. Replacing it with an alternative font (e.g. Inter, Manrope, General Sans, Satoshi, or the user's own custom fonts) takes a big step toward visual dissimilarity. Override via `@font-face` + `* { font-family: ... !important }` or by customizing the root `font-family`.
+3. **Never brand assets**: `<PWordmark>`, `<PCrest>`, `<PModelSignature>`, `<PFlag>` are trademarks and must never be used outside official Porsche projects. This is non-negotiable, regardless of customizations.
+4. **Border-radius and motion override**: these are also part of the design language. If you want to push dissimilarity further, modify `--p-radius-*` and `--p-duration-*` to use different values.
+5. **Footer credit (recommended)**: adding a note like *"Built using @porsche-design-system/components-react under the External Application clause of the PDS Assets License"* helps in case of disputes because it demonstrates good faith and license awareness.
 
-## Recommended alternatives (if you prefer not to deal with the constraint)
+## Alternatives if the user decides NOT to use PDS
 
-If you want maximum freedom without having to worry about visual distinction from Porsche, use an open source design system with a permissive license:
+If, after seeing the notice, the user spontaneously decides it's not worth the licensing risk and asks for alternatives, here are the most valid options:
 
 | Need | Alternative | Notes |
 |---|---|---|
-| React component library with a modern, customizable look | **shadcn/ui** | Not an npm lib, components are copied into your codebase. MIT. Native Tailwind v4. |
-| UI primitives without style opinions | **Radix UI** | Accessible primitives only, styles from scratch. MIT. |
-| Complete component library | **Mantine** | Lots of ready-to-use components. MIT. |
-| "Premium feel" component library | **HeroUI** (formerly NextUI) | Modern look, Tailwind-friendly. MIT. |
-| Minimal Apple/Linear look | **Park UI** (by cschroeter) | Based on Ark UI. Tailwind. MIT. |
-| Enterprise / complex | **Ant Design** or **Chakra UI v3** | For dashboards, CRUD, heavy forms. MIT. |
-| Similar to PDS in structure but generic | **Open UI**, **Lion** (ING), **Carbon Design System** (IBM), **Spectrum** (Adobe), **Fluent UI** (Microsoft) | Enterprise design systems with permissive licenses. |
+| React component library with modern, customizable look | **shadcn/ui** | Components copied into the codebase, MIT, Tailwind v4 native. The de-facto standard for modern React. |
+| Accessible UI primitives without style opinions | **Radix UI** / **Radix Themes** | Primitives only, styles from scratch. MIT. |
+| Complete component library with many ready components | **Mantine** | Very comprehensive, MIT. |
+| "Premium" look similar to the Porsche feel | **HeroUI** (formerly NextUI) | Tailwind-friendly, MIT. |
+| Minimal Apple/Linear style look | **Park UI** (cschroeter) | Based on Ark UI. Tailwind. MIT. |
+| Enterprise / dashboard / heavy forms | **Ant Design**, **Chakra UI v3** | MIT. |
+| Corporate design systems with permissive licenses | **Carbon Design System** (IBM), **Spectrum** (Adobe), **Fluent UI** (Microsoft) | From large companies, MIT/Apache. |
 
-## Porsche Next font: special case
+**Important**: only propose these alternatives **if the user asks for them**. Don't bombard them with suggestions if they've already decided to proceed with PDS — it would be paternalistic and waste their time.
 
-The **Porsche Next** font (automatically loaded by PDS via `getFontLinks()` or the v4 stylesheet import) is **proprietary to Porsche AG** and distributed via the Porsche CDN (`cdn.ui.porsche.com`). Use of the font is technically possible in an External Application permitted by the license, **but** since the font is one of the most recognizable elements of the Porsche brand identity, its use in a non-Porsche context increases the "similarity" risk.
+## Branding assets: hard limit (even inside External Application)
 
-**Practical recommendation**: in non-Porsche projects, override the font with a similar geometric sans-serif. Alternatives:
+Regardless of any customization, these components **must never be used** outside official Porsche projects, because they contain trademarks protected separately from the design language:
+
+- `<p-wordmark>` / `PWordmark` — PORSCHE wordmark logo
+- `<p-crest>` / `PCrest` — Porsche crest with horse
+- `<p-model-signature>` / `PModelSignature` — model signature (911, Taycan, etc.)
+- `<p-flag>` / `PFlag` — flag with Porsche crest
+
+If the user asks to insert one of these in a non-Porsche context, **explicitly refuse** these specific components, briefly explaining why in one sentence (they are trademarks, not just design assets), but **continue to fulfill the rest of the request** using alternatives or omitting only the brand element. Do not block the entire task because of this.
+
+## Porsche Next font
+
+The Porsche Next font is automatically loaded by PDS via the `cdn.ui.porsche.com` CDN. It is **proprietary to Porsche AG**. The use of the font is tied to the use of PDS assets in general: it technically follows the same Assets license rules.
+
+If the user wants a "premium Porsche-like" look but doesn't want to take risks, suggest free alternative fonts with similar geometry:
 - **Inter** (free, SIL OFL)
 - **Manrope** (free, SIL OFL)
 - **General Sans** (Fontshare, free for commercial use)
 - **Satoshi** (Fontshare, free for commercial use)
 - **PP Neue Montreal** (Pangram Pangram, commercial)
 
-To override in a PDS project:
-
-```css
-/* global.css — after the PDS stylesheet import */
-@import '@porsche-design-system/components-react';
-@import 'tailwindcss';
-@import '@porsche-design-system/components-react/tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-:root {
-  --p-font-family: 'Inter', system-ui, sans-serif;
-}
-
-body {
-  font-family: var(--p-font-family);
-}
-```
-
-Note: overriding `--p-font-family` does not affect the internals of PDS components (they live in Shadow DOM), but it applies to all text outside the components and the slots. In practice, the result is a "mix" — PDS components keep Porsche Next internally, the rest of the UI uses your font. If you want full visual distinction, use the font override as one of several distinction elements.
-
-## Brand assets always off-limits outside the Porsche context
-
-Even within an External Application permitted by the license, these assets **should never be used** because they are the brand's primary identifiers:
-
-- `<p-wordmark>` / `PWordmark` — PORSCHE text logo
-- `<p-crest>` / `PCrest` — Porsche crest/logo
-- `<p-model-signature>` / `PModelSignature` — graphic signature of models (911, Taycan, Cayenne, etc.)
-- `<p-link-tile-model-signature>` (v3) — link tile with model signature
-- `<p-flag>` / `PFlag` — Porsche flag with crest
-
-If the user asks to insert one of these in a non-Porsche context, refuse and explain why: these components identify the brand, using them outside a Porsche context is a license violation regardless of the rest of the design.
+If the user already has a typographic font of their own (e.g. Funnel Display, Montserrat), suggest keeping that and overriding the Porsche Next font via CSS — it's the simplest move to "break" visual uniformity with the Porsche brand.
 
 ## Sources
 
-- Full license text: `https://designsystem.porsche.com/v4/license/` and `https://github.com/porsche-design-system/porsche-design-system/blob/main/LICENSE.md`
-- Porsche Open Source legal FAQ: `https://opensource.porsche.com/`
+- Official license text: `https://designsystem.porsche.com/v4/license/` and `https://github.com/porsche-design-system/porsche-design-system/blob/main/LICENSE.md`
+- Porsche open source FAQ: `https://opensource.porsche.com/`
 - Official repository: `https://github.com/porsche-design-system/porsche-design-system`
